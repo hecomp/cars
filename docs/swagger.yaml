@@ -1,0 +1,178 @@
+basePath: /
+definitions:
+  constants.ErrorResponse:
+    properties:
+      err:
+        type: string
+      message:
+        type: string
+    type: object
+  constants.UserResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  models.Car:
+    properties:
+      Category:
+        type: string
+      color:
+        type: string
+      id:
+        type: string
+      make:
+        type: string
+      mileage:
+        type: integer
+      model:
+        type: string
+      package:
+        type: string
+      price:
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.HealthResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact:
+    name: cars
+  description: This is a Goland server that manages cars.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: GetCars CarsService
+  version: 1.0.0
+paths:
+  /car/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Reads a single car and returns it.
+      parameters:
+      - description: Car ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/constants.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+      summary: Get car
+      tags:
+      - read
+  /cars:
+    get:
+      consumes:
+      - application/json
+      description: Reads and returns all the cars.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/constants.UserResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+      summary: GetCar all cars
+      tags:
+      - read
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new car.
+      parameters:
+      - description: New car
+        in: body
+        name: car
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/constants.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+      summary: Creates car
+      tags:
+      - write
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint will return a status to determine if the service
+        is live or requires a restart
+      operationId: liveliness
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HealthResponse'
+      summary: The liveness endpoint determines the LIVE status of the service
+      tags:
+      - Health Check
+  /update:
+    put:
+      consumes:
+      - application/json
+      description: Updates a new car.
+      parameters:
+      - description: New car
+        in: body
+        name: car
+        required: true
+        schema:
+          $ref: '#/definitions/models.Car'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/constants.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/constants.ErrorResponse'
+      summary: Update car
+      tags:
+      - write
+swagger: "2.0"
